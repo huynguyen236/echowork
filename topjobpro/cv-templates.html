@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoWork - Danh sách mẫu CV</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/pro.css">
+    <link rel="stylesheet" href="css/cv-templates.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo" aria-label="EchoWork">
+                <img src="images/echo-work-logo.svg" alt="EchoWork logo">
+            </a>
+            <nav class="nav">
+                <div class="nav-item has-dropdown">
+                    <a href="index.html" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+                        Việc làm
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </a>
+                    <div class="job-dropdown" role="menu" aria-label="Việc làm">
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Việc làm</p>
+                            <a href="#" role="menuitem">🔍 Tìm việc làm</a>
+                            <a href="#" role="menuitem">🔖 Việc làm đã lưu</a>
+                            <a href="#" role="menuitem">📋 Việc làm đã ứng tuyển</a>
+                            <a href="#" role="menuitem">✨ Việc làm phù hợp</a>
+                        </div>
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Việc làm theo vị trí</p>
+                            <a href="#" role="menuitem">Công nghệ thông tin</a>
+                            <a href="#" role="menuitem">Kinh doanh / Bán hàng</a>
+                            <a href="#" role="menuitem">Marketing</a>
+                            <a href="#" role="menuitem">Nhân sự</a>
+                            <a href="#" role="menuitem">Kế toán</a>
+                            <a href="#" role="menuitem">Chăm sóc khách hàng</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item has-dropdown">
+                    <a href="#" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+                        Mẫu CV
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </a>
+                    <div class="job-dropdown cv-dropdown" role="menu" aria-label="Mẫu CV và Hồ sơ">
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Quản lý CV &amp; Hồ sơ</p>
+                            <a href="cv-templates.html" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📄</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Mẫu CV chuyên nghiệp</span>
+                                    <span class="mega-menu-desc">Danh sách các mẫu thiết kế sẵn.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">✨</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Tạo CV bằng AI</span>
+                                    <span class="mega-menu-desc">Công cụ hỗ trợ viết nội dung tự động.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📤</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Tải CV lên</span>
+                                    <span class="mega-menu-desc">Cho phép upload file PDF/Word có sẵn.</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Công cụ hỗ trợ</p>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📈</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Chấm điểm CV</span>
+                                    <span class="mega-menu-desc">Phân tích độ tương quan với mô tả công việc.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">💡</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Hướng dẫn viết CV</span>
+                                    <span class="mega-menu-desc">Các bài viết mẹo hay để gây ấn tượng.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📝</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Quản lý CV đã tạo</span>
+                                    <span class="mega-menu-desc">Danh sách các bản nháp bạn đã lưu.</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">Công ty</a>
+                <a href="pricing.html">Bảng giá</a>
+                <a href="#">Hỗ trợ</a>
+                <a href="pro.html" class="nav-pro-link">EchoWork Pro</a>
+            </nav>
+            <div class="auth-btns">
+                <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+                <a href="recruiter.html" class="btn btn-primary">Nhà tuyển dụng</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <section class="filter-section" aria-label="Bộ lọc mẫu CV">
+            <h1>Mẫu CV xin việc chuyên nghiệp</h1>
+            <p class="subtitle">Chọn nhanh mẫu CV phù hợp với mục tiêu nghề nghiệp của bạn, tối ưu cho ATS và nhà tuyển dụng.</p>
+
+            <div class="filter-toolbar">
+                <div class="filter-pills" role="tablist" aria-label="Lọc theo phong cách CV">
+                    <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">Tất cả</button>
+                    <button type="button" class="filter-pill" data-filter="don-gian" role="tab" aria-selected="false">Đơn giản</button>
+                    <button type="button" class="filter-pill" data-filter="chuyen-nghiep" role="tab" aria-selected="false">Chuyên nghiệp</button>
+                    <button type="button" class="filter-pill" data-filter="hien-dai" role="tab" aria-selected="false">Hiện đại</button>
+                    <button type="button" class="filter-pill" data-filter="an-tuong" role="tab" aria-selected="false">Ấn tượng</button>
+                    <button type="button" class="filter-pill" data-filter="harvard" role="tab" aria-selected="false">Harvard</button>
+                    <button type="button" class="filter-pill" data-filter="ats" role="tab" aria-selected="false">ATS</button>
+                </div>
+
+                <label class="language-select" for="cv-language">
+                    <span>Ngôn ngữ</span>
+                    <select id="cv-language" name="cv-language">
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="en">Tiếng Anh</option>
+                    </select>
+                </label>
+            </div>
+        </section>
+
+        <section class="cv-grid" aria-label="Danh sách mẫu CV">
+            <article class="cv-card" data-styles="don-gian chuyen-nghiep ats">
+                <div class="cv-preview">
+                    <img src="images/cv-standard.svg" alt="Mẫu CV Tiêu chuẩn">
+                    <button type="button" class="use-template">Dùng mẫu</button>
+                </div>
+                <div class="cv-content">
+                    <h3>Tiêu chuẩn</h3>
+                    <div class="tag-list">
+                        <span class="tag">ATS</span>
+                        <span class="tag">Đơn giản</span>
+                        <span class="tag">Chuyên nghiệp</span>
+                    </div>
+                    <div class="color-dots" aria-label="Biến thể màu">
+                        <span style="--dot:#00b14f"></span>
+                        <span style="--dot:#0f766e"></span>
+                        <span style="--dot:#334155"></span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="cv-card" data-styles="chuyen-nghiep an-tuong">
+                <div class="cv-preview">
+                    <img src="images/cv-elegant.svg" alt="Mẫu CV Thanh lịch">
+                    <button type="button" class="use-template">Dùng mẫu</button>
+                </div>
+                <div class="cv-content">
+                    <h3>Thanh lịch</h3>
+                    <div class="tag-list">
+                        <span class="tag">Chuyên nghiệp</span>
+                        <span class="tag">Ấn tượng</span>
+                    </div>
+                    <div class="color-dots" aria-label="Biến thể màu">
+                        <span style="--dot:#00b14f"></span>
+                        <span style="--dot:#1d4ed8"></span>
+                        <span style="--dot:#9f1239"></span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="cv-card" data-styles="don-gian hien-dai ats">
+                <div class="cv-preview">
+                    <img src="images/cv-clean.svg" alt="Mẫu CV Tối giản">
+                    <button type="button" class="use-template">Dùng mẫu</button>
+                </div>
+                <div class="cv-content">
+                    <h3>Tối giản</h3>
+                    <div class="tag-list">
+                        <span class="tag">Đơn giản</span>
+                        <span class="tag">Hiện đại</span>
+                        <span class="tag">ATS</span>
+                    </div>
+                    <div class="color-dots" aria-label="Biến thể màu">
+                        <span style="--dot:#00b14f"></span>
+                        <span style="--dot:#2563eb"></span>
+                        <span style="--dot:#7c3aed"></span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="cv-card" data-styles="hien-dai an-tuong">
+                <div class="cv-preview">
+                    <img src="images/cv-modern.svg" alt="Mẫu CV Hiện đại">
+                    <button type="button" class="use-template">Dùng mẫu</button>
+                </div>
+                <div class="cv-content">
+                    <h3>Hiện đại</h3>
+                    <div class="tag-list">
+                        <span class="tag">Hiện đại</span>
+                        <span class="tag">Ấn tượng</span>
+                    </div>
+                    <div class="color-dots" aria-label="Biến thể màu">
+                        <span style="--dot:#00b14f"></span>
+                        <span style="--dot:#ec4899"></span>
+                        <span style="--dot:#f59e0b"></span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="cv-card" data-styles="harvard chuyen-nghiep ats">
+                <div class="cv-preview">
+                    <img src="images/cv-harvard.svg" alt="Mẫu CV Harvard">
+                    <button type="button" class="use-template">Dùng mẫu</button>
+                </div>
+                <div class="cv-content">
+                    <h3>Harvard</h3>
+                    <div class="tag-list">
+                        <span class="tag">Harvard</span>
+                        <span class="tag">Chuyên nghiệp</span>
+                        <span class="tag">ATS</span>
+                    </div>
+                    <div class="color-dots" aria-label="Biến thể màu">
+                        <span style="--dot:#00b14f"></span>
+                        <span style="--dot:#7f1d1d"></span>
+                        <span style="--dot:#0f172a"></span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="cv-card" data-styles="ats don-gian chuyen-nghiep">
+                <div class="cv-preview">
+                    <img src="images/cv-ats.svg" alt="Mẫu CV ATS Ready">
+                    <button type="button" class="use-template">Dùng mẫu</button>
+                </div>
+                <div class="cv-content">
+                    <h3>ATS Ready</h3>
+                    <div class="tag-list">
+                        <span class="tag">ATS</span>
+                        <span class="tag">Đơn giản</span>
+                        <span class="tag">Chuyên nghiệp</span>
+                    </div>
+                    <div class="color-dots" aria-label="Biến thể màu">
+                        <span style="--dot:#00b14f"></span>
+                        <span style="--dot:#0891b2"></span>
+                        <span style="--dot:#475569"></span>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownItems = document.querySelectorAll('.nav-item.has-dropdown');
+
+            if (dropdownItems.length) {
+                const closeAllDropdowns = function (exceptItem) {
+                    dropdownItems.forEach(function (item) {
+                        const trigger = item.querySelector('.dropdown-trigger');
+                        const shouldClose = !exceptItem || item !== exceptItem;
+
+                        if (shouldClose) {
+                            item.classList.remove('is-open');
+                            trigger.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                };
+
+                dropdownItems.forEach(function (dropdownItem) {
+                    const trigger = dropdownItem.querySelector('.dropdown-trigger');
+                    const dropdownLinks = dropdownItem.querySelectorAll('.job-dropdown a');
+
+                    const setExpanded = function (isExpanded) {
+                        trigger.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                    };
+
+                    const closeDropdown = function () {
+                        dropdownItem.classList.remove('is-open');
+                        setExpanded(false);
+                    };
+
+                    trigger.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        const nextOpenState = !dropdownItem.classList.contains('is-open');
+                        closeAllDropdowns(dropdownItem);
+                        dropdownItem.classList.toggle('is-open', nextOpenState);
+                        setExpanded(nextOpenState);
+                    });
+
+                    dropdownItem.addEventListener('mouseenter', function () {
+                        setExpanded(true);
+                    });
+
+                    dropdownItem.addEventListener('mouseleave', function () {
+                        if (!dropdownItem.classList.contains('is-open')) {
+                            setExpanded(false);
+                        }
+                    });
+
+                    dropdownLinks.forEach(function (link) {
+                        link.addEventListener('click', function () {
+                            closeDropdown();
+                        });
+                    });
+                });
+
+                document.addEventListener('click', function (event) {
+                    const clickedInsideDropdown = event.target.closest('.nav-item.has-dropdown');
+
+                    if (!clickedInsideDropdown) {
+                        closeAllDropdowns();
+                    }
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeAllDropdowns();
+                    }
+                });
+            }
+
+            const filterButtons = document.querySelectorAll('.filter-pill');
+            const cvCards = document.querySelectorAll('.cv-card');
+
+            if (!filterButtons.length || !cvCards.length) {
+                return;
+            }
+
+            const applyFilter = function (filterValue) {
+                cvCards.forEach(function (card) {
+                    const styles = (card.dataset.styles || '').split(' ');
+                    const shouldShow = filterValue === 'all' || styles.includes(filterValue);
+                    card.classList.toggle('is-hidden', !shouldShow);
+                });
+            };
+
+            filterButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    filterButtons.forEach(function (item) {
+                        item.classList.remove('active');
+                        item.setAttribute('aria-selected', 'false');
+                    });
+
+                    button.classList.add('active');
+                    button.setAttribute('aria-selected', 'true');
+                    applyFilter(button.dataset.filter || 'all');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - EchoWork</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo" aria-label="EchoWork">
+                <img src="images/echo-work-logo.svg" alt="EchoWork logo">
+            </a>
+            <div class="auth-btns">
+                <a href="index.html" class="btn btn-outline">Quay lại</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <div class="form-title">
+                <h2>Chào mừng bạn!</h2>
+                <p>Vui lòng chọn loại tài khoản để tiếp tục</p>
+            </div>
+
+            <form>
+                <div class="class-grid">
+                    <label class="class-card">
+                        <input type="radio" name="user-type" checked>
+                        <span class="icon">👤</span>
+                        <strong>Cá nhân</strong>
+                    </label>
+                    <label class="class-card" for="type-pwd">
+                        <input type="radio" name="user-type" id="type-pwd">
+                        <span class="icon">♿</span>
+                        <strong>Người khuyết tật</strong>
+                    </label>
+                </div>
+
+                <div class="pwd-form">
+                    <p style="font-weight: 700; margin-bottom: 10px; font-size: 14px;">Bạn cần hỗ trợ gì?</p>
+                    <div class="pwd-options">
+                        <div class="pwd-item"><input type="checkbox"> Khiếm thị</div>
+                        <div class="pwd-item"><input type="checkbox"> Khiếm thính</div>
+                        <div class="pwd-item"><input type="checkbox"> Vận động</div>
+                        <div class="pwd-item"><input type="checkbox"> Khác</div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 25px;">
+                    <label>Email</label>
+                    <input type="email" placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Đăng nhập</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

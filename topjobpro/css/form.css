@@ -1,0 +1,108 @@
+.form-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-title h2 {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.form-title p {
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: var(--transition);
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* User Classification */
+.class-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.class-card {
+    border: 2px solid #f0f0f0;
+    padding: 20px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.class-card:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.class-card input {
+    display: none;
+}
+
+.class-card .icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* PWD Form Toggle */
+.pwd-form {
+    display: none;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    margin-top: 15px;
+    border: 1px solid #eee;
+}
+
+#type-pwd:checked~.pwd-form {
+    display: block;
+}
+
+.pwd-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.pwd-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}

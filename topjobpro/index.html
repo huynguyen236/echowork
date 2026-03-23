@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoWork - Nền tảng tuyển dụng tiếp cận</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/pro.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo" aria-label="EchoWork">
+                <img src="images/echo-work-logo.svg" alt="EchoWork logo">
+            </a>
+            <nav class="nav">
+                <div class="nav-item has-dropdown">
+                    <a href="index.html" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+                        Việc làm
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </a>
+                    <div class="job-dropdown" role="menu" aria-label="Việc làm">
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Việc làm</p>
+                            <a href="#" role="menuitem">🔍 Tìm việc làm</a>
+                            <a href="#" role="menuitem">🔖 Việc làm đã lưu</a>
+                            <a href="#" role="menuitem">📋 Việc làm đã ứng tuyển</a>
+                            <a href="#" role="menuitem">✨ Việc làm phù hợp</a>
+                        </div>
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Việc làm theo vị trí</p>
+                            <a href="#" role="menuitem">Công nghệ thông tin</a>
+                            <a href="#" role="menuitem">Kinh doanh / Bán hàng</a>
+                            <a href="#" role="menuitem">Marketing</a>
+                            <a href="#" role="menuitem">Nhân sự</a>
+                            <a href="#" role="menuitem">Kế toán</a>
+                            <a href="#" role="menuitem">Chăm sóc khách hàng</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item has-dropdown">
+                    <a href="#" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+                        Mẫu CV
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </a>
+                    <div class="job-dropdown cv-dropdown" role="menu" aria-label="Mẫu CV và Hồ sơ">
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Quản lý CV &amp; Hồ sơ</p>
+                            <a href="cv-templates.html" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📄</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Mẫu CV chuyên nghiệp</span>
+                                    <span class="mega-menu-desc">Danh sách các mẫu thiết kế sẵn.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">✨</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Tạo CV bằng AI</span>
+                                    <span class="mega-menu-desc">Công cụ hỗ trợ viết nội dung tự động.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📤</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Tải CV lên</span>
+                                    <span class="mega-menu-desc">Cho phép upload file PDF/Word có sẵn.</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="job-dropdown-col">
+                            <p class="job-dropdown-title">Công cụ hỗ trợ</p>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📈</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Chấm điểm CV</span>
+                                    <span class="mega-menu-desc">Phân tích độ tương quan với mô tả công việc.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">💡</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Hướng dẫn viết CV</span>
+                                    <span class="mega-menu-desc">Các bài viết mẹo hay để gây ấn tượng.</span>
+                                </span>
+                            </a>
+                            <a href="#" class="mega-menu-link" role="menuitem">
+                                <span class="mega-menu-icon" aria-hidden="true">📝</span>
+                                <span class="mega-menu-text">
+                                    <span class="mega-menu-title">Quản lý CV đã tạo</span>
+                                    <span class="mega-menu-desc">Danh sách các bản nháp bạn đã lưu.</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">Công ty</a>
+                <a href="pricing.html">Bảng giá</a>
+                <a href="#">Hỗ trợ</a>
+                <a href="pro.html" class="nav-pro-link">EchoWork Pro</a>
+            </nav>
+            <div class="auth-btns">
+                <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+                <a href="recruiter.html" class="btn btn-primary">Nhà tuyển dụng</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Tìm kiếm công việc mơ ước</h1>
+            <p>Hơn 50,000+ cơ hội việc làm đang chờ đón bạn.</p>
+            <div class="search-box">
+                <input type="text" placeholder="Tên công việc, vị trí, kỹ năng...">
+                <button class="btn btn-primary">Tìm kiếm</button>
+            </div>
+
+            <div class="hero-banners" aria-label="Banner nổi bật">
+                <button type="button" class="banner-nav banner-prev" aria-label="Banner trước">&#10094;</button>
+                <div class="banner-viewport">
+                    <div class="banner-track">
+                        <div class="banner-slide">
+                            <img src="images/1.png" alt="MB gọi người tài mở lối ngày mai">
+                        </div>
+                        <div class="banner-slide">
+                            <img src="images/2.png" alt="Telesale công nghệ lương cứng 17 triệu">
+                        </div>
+                        <div class="banner-slide">
+                            <img src="images/3.png" alt="Job ngon liền tay làm tại nhà">
+                        </div>
+                        <div class="banner-slide">
+                            <img src="images/4.png" alt="Ra mắt tính năng Echo MatchAI">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class=
+                "banner-nav banner-next" aria-label="Banner tiếp theo">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container main-grid">
+        <aside class="sidebar">
+            <div class="filter-group">
+                <h4 class="filter-title">♿ Accessibility</h4>
+                <label class="filter-item"><input type="checkbox"> Có lối đi xe lăn</label>
+                <label class="filter-item"><input type="checkbox"> Thang máy đạt chuẩn</label>
+                <label class="filter-item"><input type="checkbox"> Hỗ trợ khiếm thị</label>
+                <label class="filter-item"><input type="checkbox"> Làm việc Remote</label>
+            </div>
+            <div class="filter-group">
+                <h4 class="filter-title">📍 Địa điểm</h4>
+                <label class="filter-item"><input type="checkbox"> Hà Nội</label>
+                <label class="filter-item"><input type="checkbox"> TP. Hồ Chí Minh</label>
+                <label class="filter-item"><input type="checkbox"> Đà Nẵng</label>
+            </div>
+        </aside>
+
+        <section class="job-list">
+            <div class="job-card">
+                <div class="job-info">
+                    <div class="job-logo">TECH</div>
+                    <div class="job-details">
+                        <h3>Senior Frontend Developer</h3>
+                        <p class="job-company">TechVina Global</p>
+                        <div class="job-meta">
+                            <span>💰 25 - 40 triệu</span>
+                            <span>📍 Hà Nội</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="tag">Full-time</span>
+                            <span class="tag tag-acc">♿ Hỗ trợ xe lăn</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">Ứng tuyển</a>
+            </div>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <div class="job-logo">BANK</div>
+                    <div class="job-details">
+                        <h3>Chuyên viên Phân tích Dữ liệu</h3>
+                        <p class="job-company">Ngân hàng TMCP Việt Nam</p>
+                        <div class="job-meta">
+                            <span>💰 Thỏa thuận</span>
+                            <span>📍 TP. HCM</span>
+                        </div>
+                        <div class="job-tags">
+                            <span class="tag">Remote</span>
+                            <span class="tag tag-acc">👁️ Hỗ trợ khiếm thị</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">Ứng tuyển</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 EchoWork Vietnam. Nền tảng tuyển dụng tiếp cận hàng đầu.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownItems = document.querySelectorAll('.nav-item.has-dropdown');
+
+            if (dropdownItems.length) {
+                const closeAllDropdowns = function (exceptItem) {
+                    dropdownItems.forEach(function (item) {
+                        const trigger = item.querySelector('.dropdown-trigger');
+                        const shouldClose = !exceptItem || item !== exceptItem;
+
+                        if (shouldClose) {
+                            item.classList.remove('is-open');
+                            trigger.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                };
+
+                dropdownItems.forEach(function (dropdownItem) {
+                    const trigger = dropdownItem.querySelector('.dropdown-trigger');
+                    const dropdownLinks = dropdownItem.querySelectorAll('.job-dropdown a');
+
+                    const setExpanded = function (isExpanded) {
+                        trigger.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                    };
+
+                    const closeDropdown = function () {
+                        dropdownItem.classList.remove('is-open');
+                        setExpanded(false);
+                    };
+
+                    trigger.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        const nextOpenState = !dropdownItem.classList.contains('is-open');
+                        closeAllDropdowns(dropdownItem);
+                        dropdownItem.classList.toggle('is-open', nextOpenState);
+                        setExpanded(nextOpenState);
+                    });
+
+                    dropdownItem.addEventListener('mouseenter', function () {
+                        setExpanded(true);
+                    });
+
+                    dropdownItem.addEventListener('mouseleave', function () {
+                        if (!dropdownItem.classList.contains('is-open')) {
+                            setExpanded(false);
+                        }
+                    });
+
+                    dropdownLinks.forEach(function (link) {
+                        link.addEventListener('click', function () {
+                            closeDropdown();
+                        });
+                    });
+                });
+
+                document.addEventListener('click', function (event) {
+                    const clickedInsideDropdown = event.target.closest('.nav-item.has-dropdown');
+
+                    if (!clickedInsideDropdown) {
+                        closeAllDropdowns();
+                    }
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeAllDropdowns();
+                    }
+                });
+            }
+
+            const bannerCarousel = document.querySelector('.hero-banners');
+
+            if (!bannerCarousel) {
+                return;
+            }
+
+            const track = bannerCarousel.querySelector('.banner-track');
+            const slides = bannerCarousel.querySelectorAll('.banner-slide');
+            const prevButton = bannerCarousel.querySelector('.banner-prev');
+            const nextButton = bannerCarousel.querySelector('.banner-next');
+            const totalSlides = slides.length;
+
+            if (!track || !prevButton || !nextButton || !totalSlides) {
+                return;
+            }
+
+            let currentSlide = 0;
+            let autoSlideTimer;
+
+            const goToSlide = function (nextIndex) {
+                currentSlide = (nextIndex + totalSlides) % totalSlides;
+                track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+            };
+
+            const startAutoSlide = function () {
+                clearInterval(autoSlideTimer);
+                autoSlideTimer = setInterval(function () {
+                    goToSlide(currentSlide + 1);
+                }, 4500);
+            };
+
+            prevButton.addEventListener('click', function () {
+                goToSlide(currentSlide - 1);
+                startAutoSlide();
+            });
+
+            nextButton.addEventListener('click', function () {
+                goToSlide(currentSlide + 1);
+                startAutoSlide();
+            });
+
+            bannerCarousel.addEventListener('mouseenter', function () {
+                clearInterval(autoSlideTimer);
+            });
+
+            bannerCarousel.addEventListener('mouseleave', function () {
+                startAutoSlide();
+            });
+
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    clearInterval(autoSlideTimer);
+                } else {
+                    startAutoSlide();
+                }
+            });
+
+            goToSlide(0);
+            startAutoSlide();
+        });
+    </script>
+
+</body>
+</html>

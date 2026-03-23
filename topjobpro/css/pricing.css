@@ -1,0 +1,71 @@
+.pricing-header {
+    text-align: center;
+    padding: 80px 0 40px;
+}
+
+.pricing-header h1 {
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding-bottom: 80px;
+}
+
+.price-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+}
+
+.price-card.featured {
+    border: 3px solid var(--primary);
+    transform: scale(1.05);
+}
+
+.plan-name {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.plan-price {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.plan-price span {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.plan-features {
+    text-align: left;
+    margin-bottom: 40px;
+    flex-grow: 1;
+    list-style: none;
+}
+
+.plan-features li {
+    margin-bottom: 12px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plan-features li::before {
+    content: '✓';
+    color: var(--primary);
+    font-weight: 900;
+}

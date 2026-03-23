@@ -1,0 +1,38 @@
+.recruiter-hero {
+    background: var(--white);
+    padding: 60px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--primary);
+}
+
+.stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 14px;
+}
