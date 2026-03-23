@@ -24,9 +24,9 @@ header {
 
 .logo img {
     display: block;
-    height: 48px;
+    height: 90px;
     width: auto;
-    max-width: 220px;
+    max-width: 360px;
 }
 
 .nav {
