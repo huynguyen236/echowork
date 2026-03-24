@@ -1,73 +1,212 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảng giá dịch vụ - EchoWork</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/pricing.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Bảng Giá Nhà Tuyển Dụng – EchoWork</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--g900:#064e3b;--g800:#065f46;--g700:#047857;--g500:#10b981;--g400:#34d399;--g100:#d1fae5;--g50:#ecfdf5;--dark:#0d1f17;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--white:#fff;--bg:#f9fafb;--r:18px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
+.sticky-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo img{height:56px}
+.nav-links{display:flex;gap:14px;align-items:center}
+.nav-links a{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;transition:.2s}
+.nav-links a:hover{color:var(--g700);background:var(--g50)}
+.nav-btn{background:var(--g800);color:#fff!important;border-radius:10px;padding:9px 18px}
+.nav-btn:hover{background:var(--g700)!important}
+.hero{background:linear-gradient(160deg,var(--dark) 0%,#0d3d2a 60%,#1a5240 100%);padding:80px 40px 110px;text-align:center;color:#fff}
+.hero-tag{display:inline-block;background:rgba(16,185,129,.2);border:1px solid rgba(52,211,153,.4);color:var(--g400);font-size:12px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:20px;letter-spacing:.5px}
+.hero h1{font-size:clamp(30px,5vw,50px);font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{color:var(--g400)}
+.hero p{font-size:16px;color:rgba(255,255,255,.65);max-width:540px;margin:0 auto 36px}
+.toggle-wrap{display:flex;align-items:center;justify-content:center;gap:14px}
+.toggle-label{font-size:14px;font-weight:600;color:rgba(255,255,255,.55);transition:.2s}
+.toggle-label.active{color:#fff}
+.switch{width:50px;height:27px;background:rgba(255,255,255,.15);border-radius:99px;position:relative;cursor:pointer;border:none;transition:.25s}
+.switch.on{background:var(--g500)}
+.knob{width:21px;height:21px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:.25s;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.switch.on .knob{transform:translateX(23px)}
+.save-badge{background:var(--g500);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.cards-section{max-width:1140px;margin:-60px auto 0;padding:0 24px 80px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+.price-card{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);padding:32px 26px;box-shadow:0 4px 24px rgba(0,0,0,.08);transition:.22s;position:relative}
+.price-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,.12)}
+.price-card.pro{border:2px solid var(--g500);box-shadow:0 0 0 4px rgba(16,185,129,.12),0 4px 24px rgba(0,0,0,.08);transform:scale(1.03)}
+.price-card.pro:hover{transform:scale(1.03) translateY(-6px);box-shadow:0 0 0 4px rgba(16,185,129,.18),0 16px 48px rgba(16,185,129,.2)}
+.price-card.ent{background:var(--dark);border-color:rgba(52,211,153,.25);color:#fff}
+.price-card.ent .plan-name{color:rgba(255,255,255,.5)}
+.price-card.ent .plan-price{color:#fff}
+.price-card.ent .plan-desc{color:rgba(255,255,255,.55)}
+.price-card.ent .fi{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.08)}
+.price-card.ent .sp-track{background:rgba(255,255,255,.1)}
+.price-card.ent .sp-lbl{color:rgba(255,255,255,.5)}
+.pop-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--g700),var(--g500));color:#fff;font-size:11.5px;font-weight:800;padding:5px 18px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(16,185,129,.35)}
+.plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
+.plan-price{font-size:40px;font-weight:800;line-height:1;margin-bottom:4px}
+.plan-price span{font-size:15px;font-weight:500;color:var(--muted)}
+.yearly-price{display:none}
+body.yearly .monthly-price{display:none}
+body.yearly .yearly-price{display:block}
+.plan-desc{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.6}
+.sp-wrap{margin-bottom:22px}
+.sp-lbl{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.sp-track{height:6px;background:#f0f0f0;border-radius:99px;overflow:hidden}
+.sp-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--g700),var(--g400))}
+.fl{list-style:none;margin-bottom:26px}
+.fi{display:flex;align-items:flex-start;gap:10px;font-size:13px;padding:9px 0;border-bottom:1px solid var(--border);color:var(--text)}
+.fi:last-child{border-bottom:none}
+.ci{color:var(--g500);flex-shrink:0;margin-top:2px}
+.xi{color:#d1d5db;flex-shrink:0;margin-top:2px}
+.cta{display:block;width:100%;padding:13px;border-radius:12px;text-align:center;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:.18s}
+.cta:hover{transform:translateY(-2px)}
+.c-outline{border:2px solid var(--border);background:none;color:var(--text)}
+.c-outline:hover{border-color:var(--g500);color:var(--g700);background:var(--g50)}
+.c-green{background:linear-gradient(135deg,var(--g700),var(--g500));color:#fff;box-shadow:0 6px 20px rgba(16,185,129,.3)}
+.c-green:hover{box-shadow:0 10px 30px rgba(16,185,129,.45)}
+.c-dark{background:rgba(255,255,255,.1);border:1.5px solid rgba(52,211,153,.35);color:#fff}
+.c-dark:hover{background:rgba(255,255,255,.2)}
+.sec{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+.sec-hd{text-align:center;margin-bottom:36px}
+.sec-hd h2{font-size:26px;font-weight:800;margin-bottom:8px}
+.sec-hd p{color:var(--muted);font-size:14px}
+table{width:100%;border-collapse:collapse}
+th{padding:13px 18px;font-size:13px;font-weight:700;text-align:center;background:var(--g50);border-bottom:2px solid var(--g100)}
+th:first-child{text-align:left;background:none}
+th.pro-col{background:var(--g800);color:#fff;border-radius:8px 8px 0 0}
+td{padding:12px 18px;font-size:13px;border-bottom:1px solid var(--border);text-align:center}
+td:first-child{text-align:left;font-weight:600}
+tr:hover td{background:#f9fafb}
+.tick{color:var(--g500)}
+.cross{color:#d1d5db}
+.faq-sec{max-width:740px;margin:0 auto;padding:0 24px 100px}
+.faq-item{border:1.5px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.faq-q{width:100%;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:700;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;text-align:left;color:var(--text);transition:.18s}
+.faq-q:hover{background:var(--g50)}
+.faq-icon{font-size:20px;color:var(--g500);transition:.25s;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{display:none;padding:0 20px 18px;font-size:13.5px;line-height:1.7;color:var(--muted)}
+.faq-item.open .faq-a{display:block}
+</style>
 </head>
 <body>
+<nav class="sticky-nav">
+  <a href="index.html" class="nav-logo"><img src="images/ECHO.png" alt="EchoWork"></a>
+  <div class="nav-links">
+    <a href="index.html">Trang chủ</a>
+    <a href="recruiter.html">Dashboard</a>
+    <a href="pro.html">Gói Cá Nhân</a>
+    <a href="recruiter.html" class="nav-btn">+ Đăng tin tuyển dụng</a>
+  </div>
+</nav>
 
-    <header>
-        <div class="container header-inner">
-            <a href="index.html" class="logo" aria-label="EchoWork">
-                <img src="images/ECHO.png" alt="EchoWork logo">
-            </a>
-            <div class="auth-group">
-                <a href="recruiter.html" class="btn btn-outline">Quay lại Dashboard</a>
-            </div>
-        </div>
-    </header>
+<div class="hero">
+  <div class="hero-tag">🏢 Dành cho Nhà Tuyển Dụng</div>
+  <h1>Chọn con đường<br><span>tăng trưởng của bạn</span></h1>
+  <p>Tiếp cận hàng triệu ứng viên chất lượng với sức mạnh EchoMatchAI. Minh bạch – hiệu quả – tối ưu chi phí.</p>
+  <div class="toggle-wrap">
+    <span class="toggle-label active" id="lm">Theo tháng</span>
+    <button class="switch" id="tog" onclick="toggleBilling()"><div class="knob"></div></button>
+    <span class="toggle-label" id="ly">Theo năm</span>
+    <span class="save-badge">Tiết kiệm 20%</span>
+  </div>
+</div>
 
-    <main class="container">
-        <section class="pricing-section">
-            <h1>Chọn gói dịch vụ phù hợp</h1>
-            <p>Giải pháp tối ưu để tìm kiếm nhân sự chất lượng cho doanh nghiệp của bạn</p>
+<div class="cards-section">
+  <div class="pricing-grid">
+    <!-- STARTER -->
+    <div class="price-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price monthly-price">0đ <span>/tháng</span></div>
+      <div class="plan-price yearly-price">0đ <span>/năm</span></div>
+      <div class="plan-desc">Khởi đầu miễn phí. Phù hợp startup và doanh nghiệp nhỏ.</div>
+      <div class="sp-wrap">
+        <div class="sp-lbl"><span>🚀 Tốc độ tuyển dụng</span><span>30%</span></div>
+        <div class="sp-track"><div class="sp-fill" style="width:30%"></div></div>
+      </div>
+      <ul class="fl">
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>3 tin tuyển dụng/tháng</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Lọc ứng viên cơ bản</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Dashboard quản lý</li>
+        <li class="fi"><svg class="xi" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>EchoMatchAI</li>
+        <li class="fi"><svg class="xi" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Analytics nâng cao</li>
+      </ul>
+      <a href="#" class="cta c-outline">Bắt đầu miễn phí</a>
+    </div>
+    <!-- PROFESSIONAL -->
+    <div class="price-card pro">
+      <div class="pop-badge">⭐ Phổ biến nhất</div>
+      <div class="plan-name">Professional</div>
+      <div class="plan-price monthly-price">2.5tr <span>/tháng</span></div>
+      <div class="plan-price yearly-price">24tr <span>/năm</span></div>
+      <div class="plan-desc">Giải pháp toàn diện cho doanh nghiệp muốn tuyển dụng thông minh hơn.</div>
+      <div class="sp-wrap">
+        <div class="sp-lbl"><span>🚀 Tốc độ tuyển dụng</span><span>75%</span></div>
+        <div class="sp-track"><div class="sp-fill" style="width:75%"></div></div>
+      </div>
+      <ul class="fl">
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tin tuyển dụng không giới hạn</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>EchoMatchAI ưu tiên (85%)</strong></li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Analytics dashboard ứng viên</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Kanban ATS tích hợp</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Badge PRO nổi bật</li>
+      </ul>
+      <a href="#" class="cta c-green">Nâng cấp ngay →</a>
+    </div>
+    <!-- ENTERPRISE -->
+    <div class="price-card ent">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price monthly-price">Liên hệ</div>
+      <div class="plan-price yearly-price">Liên hệ</div>
+      <div class="plan-desc">Custom cho tập đoàn & doanh nghiệp lớn. Không giới hạn quy mô.</div>
+      <div class="sp-wrap">
+        <div class="sp-lbl"><span>🚀 Tốc độ tuyển dụng</span><span>98%</span></div>
+        <div class="sp-track"><div class="sp-fill" style="width:98%"></div></div>
+      </div>
+      <ul class="fl">
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tất cả tính năng Professional</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Account Manager riêng</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tích hợp API tuỳ chỉnh</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>White-label & custom branding</li>
+        <li class="fi"><svg class="ci" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SLA 99.9% + Hỗ trợ 24/7</li>
+      </ul>
+      <a href="#" class="cta c-dark">Liên hệ tư vấn →</a>
+    </div>
+  </div>
+</div>
 
-            <div class="pricing-grid">
-                <!-- Basic -->
-                <div class="price-card">
-                    <h2>Gói Cơ Bản</h2>
-                    <div class="price">0đ <span>/tháng</span></div>
-                    <ul class="price-features">
-                        <li>Đăng tối đa 3 tin/tháng</li>
-                        <li>Hiển thị cơ bản</li>
-                        <li>Quản lý ứng viên cơ bản</li>
-                    </ul>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Bắt đầu ngay</a>
-                </div>
+<!-- COMPARISON TABLE -->
+<div class="sec">
+  <div class="sec-hd"><h2>So sánh tính năng chi tiết</h2><p>Tìm gói phù hợp nhất với quy mô doanh nghiệp</p></div>
+  <table>
+    <thead><tr><th>Tính năng</th><th>Starter</th><th class="pro-col">Professional</th><th>Enterprise</th></tr></thead>
+    <tbody>
+      <tr><td>Tin tuyển dụng</td><td>3/tháng</td><td>Không giới hạn</td><td>Không giới hạn</td></tr>
+      <tr><td>EchoMatchAI</td><td><span class="cross">✕</span></td><td>✅ 85% chính xác</td><td>✅ Tuỳ chỉnh</td></tr>
+      <tr><td>Analytics ứng viên</td><td><span class="cross">✕</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>Kanban ATS</td><td>Cơ bản</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>Accessibility filters</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>Account Manager</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>API Integration</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>Custom branding</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>Hỗ trợ</td><td>Email</td><td>Email + Chat</td><td>24/7 ưu tiên</td></tr>
+    </tbody>
+  </table>
+</div>
 
-                <!-- PRO -->
-                <div class="price-card pro">
-                    <div class="recommended">Phổ biến nhất</div>
-                    <h2>Gói PRO Highlight</h2>
-                    <div class="price">2.5tr <span>/tháng</span></div>
-                    <ul class="price-features">
-                        <li>Đăng tin không giới hạn</li>
-                        <li>Gắn badge PRO nổi bật</li>
-                        <li>Ưu tiên hiển thị top đầu</li>
-                        <li>Lọc ứng viên nâng cao</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Nâng cấp ngay</a>
-                </div>
+<!-- FAQ -->
+<div class="faq-sec">
+  <div class="sec-hd"><h2>Câu hỏi thường gặp</h2><p>Chúng tôi luôn sẵn sàng giải đáp mọi thắc mắc</p></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Tôi có thể huỷ gói bất cứ lúc nào không?<span class="faq-icon">+</span></button><div class="faq-a">Có, bạn có thể huỷ bất kỳ lúc nào mà không mất phụ phí. Gói đã trả vẫn hoạt động đến hết chu kỳ.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">EchoMatchAI hoạt động như thế nào?<span class="faq-icon">+</span></button><div class="faq-a">AI phân tích hàng chục yếu tố từ CV, đối chiếu với yêu cầu công việc và cho ra điểm tương thích trung bình 85% chính xác.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Gói có hỗ trợ Accessibility không?<span class="faq-icon">+</span></button><div class="faq-a">Có. Tất cả gói đều có bộ lọc tiếp cận: lối đi xe lăn, hỗ trợ khiếm thị, remote, thang máy…</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Có dùng thử Professional miễn phí không?<span class="faq-icon">+</span></button><div class="faq-a">Có! 14 ngày dùng thử đầy đủ tính năng Professional, không cần thẻ tín dụng.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Enterprise tuỳ chỉnh đến mức nào?<span class="faq-icon">+</span></button><div class="faq-a">White-label hoàn toàn, subdomain riêng, tích hợp API vào hệ thống HR nội bộ, SLA 99.9% uptime.</div></div>
+</div>
 
-                <!-- Premium -->
-                <div class="price-card premium">
-                    <h2>Gói Premium</h2>
-                    <div class="price">5tr <span>/tháng</span></div>
-                    <ul class="price-features">
-                        <li>Tất cả tính năng gói PRO</li>
-                        <li>Đăng tin tại trang EchoWork PRO</li>
-                        <li>Hỗ trợ AI tìm kiếm nhân sự</li>
-                        <li>Chuyên viên hỗ trợ 24/7</li>
-                    </ul>
-                    <a href="#" class="btn btn-pro" style="width: 100%;">Liên hệ tư vấn</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
+<script>
+function toggleBilling(){const t=document.getElementById('tog');t.classList.toggle('on');document.body.classList.toggle('yearly');document.getElementById('lm').classList.toggle('active');document.getElementById('ly').classList.toggle('active')}
+function toggleFaq(b){const i=b.closest('.faq-item'),o=i.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(x=>x.classList.remove('open'));if(!o)i.classList.add('open')}
+</script>
 </body>
 </html>

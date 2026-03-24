@@ -1,64 +1,1276 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhà tuyển dụng - EchoWork</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/recruiter.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-</head>
+    <title>Recruiter Dashboard – EchoWork</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        :root {
+            --green-900: #064e3b;
+            --green-800: #065f46;
+            --green-700: #047857;
+            --green-500: #10b981;
+            --green-400: #34d399;
+            --green-100: #d1fae5;
+            --green-50:  #ecfdf5;
+            --sidebar-w: 72px;
+            --sidebar-expanded: 230px;
+            --header-h: 64px;
+            --white: #ffffff;
+            --bg: #f0fdf4;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --text: #111827;
+            --muted: #6b7280;
+            --radius: 14px;
+            --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.07);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--green-800);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0; left: 0;
+            height: 100vh;
+            z-index: 100;
+            transition: width 0.25s ease;
+            overflow: visible;
+        }
+
+        .sidebar:hover {
+            width: var(--sidebar-expanded);
+            overflow: hidden;
+        }
+
+        .sidebar-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin-bottom: 28px;
+        }
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+
+        /* Ẩn text khi sidebar thu gọn */
+        .nav-item span:not(.nav-dot) {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+            transition: opacity 0.22s ease, width 0.22s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar:hover .nav-item span:not(.nav-dot) {
+            opacity: 1;
+            width: auto;
+        }
+
+        /* Căn giữa icon khi thu */
+        .nav-item {
+            justify-content: flex-start;
+        }
+
+        /* Tooltip khi chỉ có icon */
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: calc(var(--sidebar-w) + 10px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1f2937;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+            z-index: 200;
+        }
+
+        .nav-item:hover::after {
+            opacity: 1;
+        }
+
+        .sidebar:hover .nav-item::after {
+            opacity: 0 !important;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+            padding: 0 10px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background 0.18s, color 0.18s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item svg { flex-shrink: 0; }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        .nav-item .nav-dot {
+            width: 6px; height: 6px;
+            background: var(--green-400);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-left: auto;
+            display: none;
+        }
+
+        .nav-item.active .nav-dot { display: block; }
+
+        .sidebar-bottom {
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /* ── MAIN WRAPPER ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .top-header {
+            height: var(--header-h);
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 28px;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-search {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 9px 16px 9px 40px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: var(--bg);
+            color: var(--text);
+            transition: border-color 0.18s;
+        }
+
+        .header-search input:focus { border-color: var(--green-500); }
+
+        .header-search svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .icon-btn {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            position: relative;
+            transition: border-color 0.18s, color 0.18s;
+        }
+
+        .icon-btn:hover { border-color: var(--green-500); color: var(--green-700); }
+
+        .notif-dot {
+            position: absolute;
+            top: 7px; right: 7px;
+            width: 8px; height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .accessibility-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1.5px solid var(--green-500);
+            background: var(--green-50);
+            color: var(--green-700);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.18s, color 0.18s;
+        }
+
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: none;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.18s, color 0.18s, background 0.18s;
+        }
+
+        .back-home-btn:hover {
+            border-color: var(--green-500);
+            color: var(--green-700);
+            background: var(--green-50);
+        }
+
+        .accessibility-btn:hover { background: var(--green-100); }
+
+        .company-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.18s;
+        }
+
+        .company-profile:hover { border-color: var(--green-500); }
+
+        .company-avatar {
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .company-name { font-size: 13px; font-weight: 600; }
+
+        /* ── CONTENT ── */
+        .content {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .page-greeting h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .page-greeting p {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* ── ROW 1: STAT CARDS ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+        .stat-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .stat-icon-wrap {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        .badge-up { background: #dcfce7; color: #15803d; }
+        .badge-warn { background: #fef3c7; color: #b45309; }
+        .badge-blue { background: #dbeafe; color: #1d4ed8; }
+        .badge-purple { background: #f3e8ff; color: #7e22ce; }
+
+        .stat-num {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .sparkline { height: 40px; }
+
+        /* ── ROW 2: CHARTS ── */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .card-action {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green-700);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ── ROW 3: KANBAN ── */
+        .kanban-section {}
+
+        .kanban-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .kanban-col {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .kanban-col-header {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .kanban-col-title {
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kanban-count {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .col-applied .kanban-count  { background: #dbeafe; color: #1e40af; }
+        .col-screen  .kanban-count  { background: #fef3c7; color: #92400e; }
+        .col-interview .kanban-count { background: #f3e8ff; color: #6b21a8; }
+        .col-offer   .kanban-count  { background: #dcfce7; color: #14532d; }
+
+        .col-applied  .kanban-col-header { border-top: 3px solid #3b82f6; }
+        .col-screen   .kanban-col-header { border-top: 3px solid #f59e0b; }
+        .col-interview .kanban-col-header { border-top: 3px solid #8b5cf6; }
+        .col-offer    .kanban-col-header { border-top: 3px solid #10b981; }
+
+        .kanban-cards {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Candidate Card */
+        .candidate-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            position: relative;
+            transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+            cursor: pointer;
+        }
+
+        .candidate-card:hover {
+            border-color: var(--green-500);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.12);
+            transform: translateY(-2px);
+        }
+
+        .candidate-card:hover .card-quick-actions {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .card-quick-actions {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(0deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 0 0 12px 12px;
+            padding: 20px 14px 12px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.18s;
+        }
+
+        .quick-btn {
+            flex: 1;
+            padding: 5px 0;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1.5px solid;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.15s;
+        }
+
+        .quick-btn.view { border-color: var(--green-500); color: var(--green-700); background: var(--green-50); }
+        .quick-btn.msg  { border-color: #3b82f6; color: #1d4ed8; background: #eff6ff; }
+        .quick-btn.rej  { border-color: #ef4444; color: #b91c1c; background: #fef2f2; }
+
+        .candidate-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .candidate-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .candidate-info { flex: 1; min-width: 0; }
+
+        .candidate-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .candidate-role {
+            font-size: 11.5px;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* EchoMatchAI Badge */
+        .match-badge {
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #065f46, #10b981);
+            color: white;
+            box-shadow: 0 0 10px rgba(16,185,129,0.4);
+            white-space: nowrap;
+        }
+
+        .match-badge.glow {
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%,100% { box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+            50%      { box-shadow: 0 0 18px rgba(16,185,129,0.7); }
+        }
+
+        .acc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+        }
+
+        .acc-tag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .acc-tag.wheelchair { background: #d1fae5; color: #065f46; }
+        .acc-tag.vision     { background: #fce7f3; color: #9d174d; }
+        .acc-tag.elevator   { background: #fef3c7; color: #92400e; }
+        .acc-tag.remote     { background: #dbeafe; color: #1e40af; }
+
+        .apply-time {
+            font-size: 10.5px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        /* ── ROW 4: ACTIVITY ── */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .activity-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child { border-bottom: none; }
+
+        .activity-dot {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+        .activity-text strong { font-weight: 700; }
+        .activity-time { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+        /* Job list */
+        .job-list-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .job-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .job-row:last-child { border-bottom: none; }
+
+        .job-row-left { display: flex; align-items: center; gap: 12px; }
+
+        .job-dot-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .job-title { font-size: 13px; font-weight: 700; }
+        .job-meta-text { font-size: 11px; color: var(--muted); }
+
+        .job-apps-count {
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--green-50);
+            color: var(--green-700);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* ── HIGH CONTRAST MODE ── */
+        body.high-contrast {
+            filter: contrast(1.5) brightness(1.05);
+        }
+
+        body.large-font { font-size: 115%; }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+    </style>
+</head>
 <body>
 
-    <header>
-        <div class="container header-inner">
-            <a href="index.html" class="logo" aria-label="EchoWork">
-                <img src="images/ECHO.png" alt="EchoWork logo">
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <img src="images/ECHO.png" alt="EchoWork">
+    </div>
+    <nav class="sidebar-nav">
+        <a class="nav-item active" href="#" data-tooltip="Dashboard">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Dashboard</span>
+            <span class="nav-dot"></span>
+        </a>
+        <a class="nav-item" href="#" data-tooltip="Tin tuyển dụng">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Tin tuyển dụng</span>
+        </a>
+        <a class="nav-item" href="#" data-tooltip="Ứng viên (ATS)">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <span>Ứng viên (ATS)</span>
+        </a>
+        <a class="nav-item" href="#" data-tooltip="Analytics">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Analytics</span>
+        </a>
+        <a class="nav-item" href="#" data-tooltip="Lịch phỏng vấn">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Lịch phỏng vấn</span>
+        </a>
+    </nav>
+    <div class="sidebar-bottom">
+        <a class="nav-item" href="index.html" data-tooltip="Cài đặt">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+            <span>Cài đặt</span>
+        </a>
+    </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main-wrapper">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <div class="header-search">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Tìm kiếm ứng viên, vị trí...">
+        </div>
+        <div class="header-right">
+            <a href="index.html" class="back-home-btn">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                Trang chủ
             </a>
-            <nav class="nav">
-                <a href="#">Dashboard</a>
-                <a href="#">Tin tuyển dụng</a>
-                <a href="#">Ứng viên</a>
-            </nav>
-            <div class="auth-btns">
-                <a href="#" class="btn btn-primary">+ Đăng tin mới</a>
+            <button class="accessibility-btn" id="accessBtn" onclick="toggleAccessibility()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                Accessibility View
+            </button>
+            <button class="icon-btn" aria-label="Thông báo">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                <span class="notif-dot"></span>
+            </button>
+            <div class="company-profile">
+                <div class="company-avatar">TV</div>
+                <span class="company-name">TechVina</span>
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
         </div>
     </header>
 
-    <section class="recruiter-hero">
-        <div class="container">
-            <div class="dash-header">
-                <div>
-                    <h1>Chào buổi sáng, TechVina!</h1>
-                    <p>Hôm nay bạn có 15 ứng viên mới đang chờ duyệt.</p>
-                </div>
-            </div>
+    <!-- CONTENT -->
+    <main class="content">
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-num">12</div>
-                    <div class="stat-label">Tin đang đăng</div>
+        <!-- GREETING -->
+        <div class="page-greeting">
+            <h1>Chào buổi tối, TechVina! 👋</h1>
+            <p>Hôm nay 23/03/2026 — bạn có <strong>15 ứng viên mới</strong> đang chờ duyệt.</p>
+        </div>
+
+        <!-- ROW 1: STAT CARDS -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon-wrap" style="background:#d1fae5;">
+                        <svg width="22" height="22" fill="none" stroke="#065f46" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                    </div>
+                    <span class="stat-badge badge-up">+3 hôm nay</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="font-size: 32px; font-weight: 800; color: var(--primary);">458</div>
-                    <div class="stat-label">Tổng ứng viên</div>
+                <div class="stat-num">24</div>
+                <div class="stat-label">Tin đang tuyển</div>
+                <canvas class="sparkline" id="spark1"></canvas>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon-wrap" style="background:#dbeafe;">
+                        <svg width="22" height="22" fill="none" stroke="#1d4ed8" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+                    </div>
+                    <span class="stat-badge badge-blue">+47 tuần này</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-num">85%</div>
-                    <div class="stat-label">Tỷ lệ phản hồi</div>
+                <div class="stat-num">1.284</div>
+                <div class="stat-label">Tổng lượt ứng tuyển</div>
+                <canvas class="sparkline" id="spark2"></canvas>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon-wrap" style="background:#f3e8ff;">
+                        <svg width="22" height="22" fill="none" stroke="#7e22ce" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <span class="stat-badge badge-purple">8 hôm nay</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-num">24</div>
-                    <div class="stat-label">Lượt xem hôm nay</div>
+                <div class="stat-num">34</div>
+                <div class="stat-label">Đang phỏng vấn</div>
+                <canvas class="sparkline" id="spark3"></canvas>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon-wrap" style="background:#fef3c7;">
+                        <svg width="22" height="22" fill="none" stroke="#b45309" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    </div>
+                    <span class="stat-badge badge-warn">4.2 ngày TB</span>
+                </div>
+                <div class="stat-num">87%</div>
+                <div class="stat-label">Tốc độ tuyển dụng</div>
+                <canvas class="sparkline" id="spark4"></canvas>
+            </div>
+        </div>
+
+        <!-- ROW 2: CHARTS -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Tăng trưởng ứng viên</div>
+                        <div class="card-subtitle">6 tháng gần nhất</div>
+                    </div>
+                    <button class="card-action">Xuất báo cáo →</button>
+                </div>
+                <canvas id="growthChart" height="220"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Nguồn ứng viên</div>
+                        <div class="card-subtitle">Kênh tuyển dụng</div>
+                    </div>
+                    <button class="card-action">Chi tiết →</button>
+                </div>
+                <canvas id="sourceChart" height="220"></canvas>
+            </div>
+        </div>
+
+        <!-- ROW 3: KANBAN -->
+        <div class="kanban-section">
+            <div class="kanban-title-row">
+                <div>
+                    <div class="card-title" style="font-size:17px;">Theo dõi ứng viên</div>
+                    <div class="card-subtitle">Cập nhật theo thời gian thực</div>
+                </div>
+                <button class="card-action" style="border:1.5px solid var(--green-500);padding:8px 16px;border-radius:10px;background:var(--green-50);color:var(--green-700);">+ Thêm ứng viên</button>
+            </div>
+            <div class="kanban-board">
+                <!-- Column 1: New Applied -->
+                <div class="kanban-col col-applied">
+                    <div class="kanban-col-header">
+                        <div class="kanban-col-title">
+                            <svg width="14" height="14" fill="#3b82f6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                            Mới ứng tuyển
+                        </div>
+                        <span class="kanban-count">8</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <!-- Card 1 -->
+                        <div class="candidate-card">
+                            <div class="candidate-top">
+                                <div class="candidate-avatar" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">NA</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Nguyễn Văn An</div>
+                                    <div class="candidate-role">Senior Frontend Dev</div>
+                                </div>
+                                <span class="match-badge glow">92% Match</span>
+                            </div>
+                            <div class="acc-tags">
+                                <span class="acc-tag wheelchair">♿ Xe lăn</span>
+                                <span class="acc-tag remote">💻 Remote</span>
+                            </div>
+                            <div class="apply-time">⏱ 2 giờ trước</div>
+                            <div class="card-quick-actions">
+                                <button class="quick-btn view">Xem CV</button>
+                                <button class="quick-btn msg">Nhắn tin</button>
+                                <button class="quick-btn rej">Từ chối</button>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="candidate-card">
+                            <div class="candidate-top">
+                                <div class="candidate-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">TH</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Trần Thị Hoa</div>
+                                    <div class="candidate-role">UX/UI Designer</div>
+                                </div>
+                                <span class="match-badge">85% Match</span>
+                            </div>
+                            <div class="acc-tags">
+                                <span class="acc-tag vision">👁 Khiếm thị</span>
+                            </div>
+                            <div class="apply-time">⏱ 4 giờ trước</div>
+                            <div class="card-quick-actions">
+                                <button class="quick-btn view">Xem CV</button>
+                                <button class="quick-btn msg">Nhắn tin</button>
+                                <button class="quick-btn rej">Từ chối</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Screening -->
+                <div class="kanban-col col-screen">
+                    <div class="kanban-col-header">
+                        <div class="kanban-col-title">
+                            <svg width="14" height="14" fill="#f59e0b" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                            Sàng lọc
+                        </div>
+                        <span class="kanban-count">5</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-top">
+                                <div class="candidate-avatar" style="background:linear-gradient(135deg,#10b981,#065f46)">LM</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Lê Minh Khoa</div>
+                                    <div class="candidate-role">Data Engineer</div>
+                                </div>
+                                <span class="match-badge glow">91% Match</span>
+                            </div>
+                            <div class="acc-tags">
+                                <span class="acc-tag elevator">🛗 Thang máy</span>
+                                <span class="acc-tag remote">💻 Remote</span>
+                            </div>
+                            <div class="apply-time">⏱ 1 ngày trước</div>
+                            <div class="card-quick-actions">
+                                <button class="quick-btn view">Xem CV</button>
+                                <button class="quick-btn msg">Nhắn tin</button>
+                                <button class="quick-btn rej">Từ chối</button>
+                            </div>
+                        </div>
+                        <div class="candidate-card">
+                            <div class="candidate-top">
+                                <div class="candidate-avatar" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">PL</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Phạm Lan Anh</div>
+                                    <div class="candidate-role">Product Manager</div>
+                                </div>
+                                <span class="match-badge">78% Match</span>
+                            </div>
+                            <div class="acc-tags">
+                                <span class="acc-tag wheelchair">♿ Xe lăn</span>
+                            </div>
+                            <div class="apply-time">⏱ 2 ngày trước</div>
+                            <div class="card-quick-actions">
+                                <button class="quick-btn view">Xem CV</button>
+                                <button class="quick-btn msg">Nhắn tin</button>
+                                <button class="quick-btn rej">Từ chối</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Interview -->
+                <div class="kanban-col col-interview">
+                    <div class="kanban-col-header">
+                        <div class="kanban-col-title">
+                            <svg width="14" height="14" fill="#8b5cf6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                            Phỏng vấn
+                        </div>
+                        <span class="kanban-count">4</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-top">
+                                <div class="candidate-avatar" style="background:linear-gradient(135deg,#f43f5e,#f97316)">VT</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Võ Thanh Tùng</div>
+                                    <div class="candidate-role">Backend Developer</div>
+                                </div>
+                                <span class="match-badge glow">95% Match</span>
+                            </div>
+                            <div class="acc-tags">
+                                <span class="acc-tag vision">👁 Khiếm thị</span>
+                                <span class="acc-tag remote">💻 Remote</span>
+                            </div>
+                            <div class="apply-time">📅 24/03 – 10:00 AM</div>
+                            <div class="card-quick-actions">
+                                <button class="quick-btn view">Xem CV</button>
+                                <button class="quick-btn msg">Nhắn tin</button>
+                                <button class="quick-btn rej">Từ chối</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 4: Offer -->
+                <div class="kanban-col col-offer">
+                    <div class="kanban-col-header">
+                        <div class="kanban-col-title">
+                            <svg width="14" height="14" fill="#10b981" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                            Đề nghị việc làm
+                        </div>
+                        <span class="kanban-count">2</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-top">
+                                <div class="candidate-avatar" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">BN</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Bùi Ngọc Hân</div>
+                                    <div class="candidate-role">Senior Dev – 35M/tháng</div>
+                                </div>
+                                <span class="match-badge glow">97% Match</span>
+                            </div>
+                            <div class="acc-tags">
+                                <span class="acc-tag elevator">🛗 Thang máy</span>
+                            </div>
+                            <div class="apply-time">✅ Offer gửi 22/03</div>
+                            <div class="card-quick-actions">
+                                <button class="quick-btn view">Xem CV</button>
+                                <button class="quick-btn msg">Nhắn tin</button>
+                                <button class="quick-btn rej">Hủy offer</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
+        <!-- ROW 4: BOTTOM -->
+        <div class="bottom-row">
+            <!-- Recent Activity -->
+            <div class="activity-card">
+                <div class="card-header">
+                    <div class="card-title">Hoạt động gần đây</div>
+                    <button class="card-action">Xem tất cả</button>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:#d1fae5;">💼</div>
+                        <div>
+                            <div class="activity-text"><strong>Nguyễn Văn An</strong> vừa ứng tuyển vị trí <strong>Senior Frontend</strong></div>
+                            <div class="activity-time">2 giờ trước</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:#f3e8ff;">📅</div>
+                        <div>
+                            <div class="activity-text">Lịch phỏng vấn với <strong>Trần Thị B</strong> đã được xác nhận</div>
+                            <div class="activity-time">3 giờ trước</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:#dbeafe;">🤖</div>
+                        <div>
+                            <div class="activity-text"><strong>EchoMatchAI</strong> tìm thấy 5 ứng viên phù hợp mới cho <strong>Backend Dev</strong></div>
+                            <div class="activity-time">5 giờ trước</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:#fef3c7;">✅</div>
+                        <div>
+                            <div class="activity-text"><strong>Bùi Ngọc Hân</strong> đã chấp nhận đề nghị việc làm</div>
+                            <div class="activity-time">Hôm qua</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Jobs -->
+            <div class="job-list-card">
+                <div class="card-header">
+                    <div class="card-title">Tin tuyển dụng đang chạy</div>
+                    <button class="card-action">Quản lý →</button>
+                </div>
+                <div>
+                    <div class="job-row">
+                        <div class="job-row-left">
+                            <div class="job-dot-icon" style="background:#d1fae5;">💻</div>
+                            <div>
+                                <div class="job-title">Senior Frontend Developer</div>
+                                <div class="job-meta-text">Hà Nội · Full-time · 25–40M</div>
+                            </div>
+                        </div>
+                        <span class="job-apps-count">142 ứng viên</span>
+                    </div>
+                    <div class="job-row">
+                        <div class="job-row-left">
+                            <div class="job-dot-icon" style="background:#dbeafe;">🗄️</div>
+                            <div>
+                                <div class="job-title">Data Engineer</div>
+                                <div class="job-meta-text">Remote · Full-time · 30–50M</div>
+                            </div>
+                        </div>
+                        <span class="job-apps-count">98 ứng viên</span>
+                    </div>
+                    <div class="job-row">
+                        <div class="job-row-left">
+                            <div class="job-dot-icon" style="background:#f3e8ff;">🎨</div>
+                            <div>
+                                <div class="job-title">UX/UI Designer</div>
+                                <div class="job-meta-text">TP.HCM · Hybrid · 18–28M</div>
+                            </div>
+                        </div>
+                        <span class="job-apps-count">67 ứng viên</span>
+                    </div>
+                    <div class="job-row">
+                        <div class="job-row-left">
+                            <div class="job-dot-icon" style="background:#fef3c7;">📊</div>
+                            <div>
+                                <div class="job-title">Product Manager</div>
+                                <div class="job-meta-text">Hà Nội · Full-time · Thỏa thuận</div>
+                            </div>
+                        </div>
+                        <span class="job-apps-count">53 ứng viên</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+// ── Sparklines ──
+function makeSparkline(id, data, color) {
+    const ctx = document.getElementById(id);
+    if (!ctx) return;
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.map((_,i) => i),
+            datasets: [{ data, borderColor: color, borderWidth: 2, pointRadius: 0, tension: 0.4, fill: true, backgroundColor: color + '20' }]
+        },
+        options: { plugins:{legend:{display:false}}, scales:{x:{display:false},y:{display:false}}, animation:{duration:800} }
+    });
+}
+makeSparkline('spark1', [10,14,12,18,20,22,24], '#10b981');
+makeSparkline('spark2', [900,980,1050,1100,1200,1250,1284], '#3b82f6');
+makeSparkline('spark3', [20,25,28,30,29,32,34], '#8b5cf6');
+makeSparkline('spark4', [80,82,85,84,86,87,87], '#f59e0b');
+
+// ── Growth Chart ──
+const growthCtx = document.getElementById('growthChart');
+if (growthCtx) {
+    new Chart(growthCtx, {
+        type: 'line',
+        data: {
+            labels: ['T10/25','T11/25','T12/25','T1/26','T2/26','T3/26'],
+            datasets: [{
+                label: 'Ứng viên mới',
+                data: [180, 240, 290, 320, 380, 458],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16,185,129,0.08)',
+                pointBackgroundColor: '#065f46',
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                fill: true,
+                tension: 0.4,
+                borderWidth: 2.5
+            }]
+        },
+        options: {
+            plugins: { legend:{display:false} },
+            scales: {
+                x: { grid:{color:'#f0fdf4'}, ticks:{font:{size:12},color:'#6b7280'} },
+                y: { grid:{color:'#f0fdf4'}, ticks:{font:{size:12},color:'#6b7280'} }
+            }
+        }
+    });
+}
+
+// ── Source Chart ──
+const sourceCtx = document.getElementById('sourceChart');
+if (sourceCtx) {
+    new Chart(sourceCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['EchoWork AI', 'LinkedIn', 'Referrals', 'Website', 'Khác'],
+            datasets: [{
+                data: [38, 27, 18, 12, 5],
+                backgroundColor: ['#10b981','#3b82f6','#8b5cf6','#f59e0b','#e5e7eb'],
+                borderWidth: 0,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            cutout: '68%',
+            plugins: {
+                legend: { position: 'bottom', labels: { font:{size:12}, padding:14, color:'#374151' } }
+            }
+        }
+    });
+}
+
+// ── Accessibility Toggle ──
+let accMode = 0;
+const modes = [
+    { label:'Accessibility View', classes:[] },
+    { label:'♿ Tương phản cao', classes:['high-contrast'] },
+    { label:'🔍 Chữ lớn', classes:['large-font'] },
+];
+
+function toggleAccessibility() {
+    accMode = (accMode + 1) % modes.length;
+    document.body.className = modes[accMode].classes.join(' ');
+    document.getElementById('accessBtn').querySelector('span') &&
+        (document.getElementById('accessBtn').textContent = modes[accMode].label);
+    document.getElementById('accessBtn').innerHTML =
+        `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> ${modes[accMode].label}`;
+}
+</script>
 </body>
-
 </html>
