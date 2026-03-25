@@ -65,14 +65,23 @@
 .pro-body .pro-brand {
     display: inline-flex;
     align-items: center;
+    gap: 10px;
     text-decoration: none;
 }
 
 .pro-body .pro-brand img {
     display: block;
-    height: 48px;
+    height: 90px;
     width: auto;
-    max-width: 240px;
+    max-width: 360px;
+}
+
+.pro-body .pro-brand-text {
+    font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #e4be50;
 }
 
 .pro-body .pro-back-btn {
@@ -88,6 +97,17 @@
 .pro-body .pro-back-btn:hover {
     background: rgba(212, 175, 55, 0.16);
     color: #ffe28f;
+}
+
+@media (max-width: 768px) {
+    .pro-body .pro-brand img {
+        height: 64px;
+        max-width: 260px;
+    }
+
+    .pro-body .pro-brand-text {
+        font-size: 1.15rem;
+    }
 }
 
 .pro-body .pro-hero {
