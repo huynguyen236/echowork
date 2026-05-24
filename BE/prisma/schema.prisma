@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  RECRUITER
+  CANDIDATE
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id         Int      @id @default(autoincrement())
+  fullName   String
+  email      String   @unique
+  password   String
+  role       Role     @default(CANDIDATE)
+  avatar     String?
+  disability String?
+  createdAt  DateTime @default(now())
+
+  // Relations
+  jobs             Job[]
+  applications     Application[]
+  cvs              CV[]
+  accessibilitySetting AccessibilitySetting?
+
+  // Indexes — speed up role-based filtering and admin search
+  @@index([role])
+  @@index([createdAt])
+}
+
+model Job {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @db.Text
+  salary      Float?
+  location    String?
+  companyName String
+  createdAt   DateTime @default(now())
+
+  // Relations
+  createdBy    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  applications Application[]
+
+  // Indexes — speed up recruiter's own-job queries, search, and location filtering
+  @@index([userId])
+  @@index([title])
+  @@index([location])
+  @@index([createdAt])
+}
+
+model Application {
+  id        Int               @id @default(autoincrement())
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+
+  // Relations
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  job    Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId  Int
+
+  @@unique([userId, jobId]) // prevent duplicate applications
+
+  // Indexes — speed up per-user, per-job, and status-filtered queries
+  @@index([userId])
+  @@index([jobId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CV {
+  id         Int      @id @default(autoincrement())
+  summary    String?  @db.Text
+  education  String?  @db.Text
+  experience String?  @db.Text
+  skills     String?  @db.Text
+  template   String?  @default("default")
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  // Index — speed up candidate's own CV list
+  @@index([userId])
+}
+
+model AccessibilitySetting {
+  id           Int     @id @default(autoincrement())
+  fontSize     String? @default("medium") // small | medium | large
+  contrastMode String? @default("normal") // normal | high | dark
+
+  // Relations
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+}

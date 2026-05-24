@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: echowork-api
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci && npx prisma generate
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false         # Set manually in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true # Render auto-generates a secure random value
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        sync: false         # Set to your Vercel/frontend URL
+      - key: AVATAR_MAX_SIZE
+        value: 2097152
+      - key: CV_MAX_SIZE
+        value: 5242880
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX
+        value: 10
+      - key: PORT
+        value: 3000

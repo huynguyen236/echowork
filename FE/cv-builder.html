@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder - EchoWork</title>
+    <meta name="description" content="Tạo và chỉnh sửa CV chuyên nghiệp. Xuất PDF miễn phí.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <style>
+        body { background:#f8fffe; font-family:'Inter',sans-serif; color:#111827; margin:0; }
+
+        .cv-builder-layout { min-height:100vh; display:flex; flex-direction:column; }
+        .cv-builder-content {
+            max-width:800px; margin:0 auto; padding:32px 20px 60px;
+            width:100%;
+        }
+
+        .page-header { margin-bottom:28px; }
+        .page-header h1 { font-size:24px; font-weight:800; color:#111827; margin:0 0 6px; }
+        .page-header p  { font-size:14px; color:#6b7280; margin:0; }
+
+        .cv-id-badge {
+            display:inline-flex; align-items:center; gap:6px;
+            padding:4px 12px; background:#d1fae5; color:#065f46;
+            border-radius:20px; font-size:12px; font-weight:600; margin-top:8px;
+        }
+
+        .cv-status {
+            padding:10px 14px; border-radius:8px; font-size:13px; font-weight:500; margin-bottom:16px;
+        }
+        .cv-status-loading { background:#fef3c7; color:#92400e; }
+        .cv-status-ready   { background:#d1fae5; color:#065f46; }
+        .cv-status-error   { background:#fee2e2; color:#991b1b; }
+
+        .cv-form-card {
+            background:white; border-radius:16px; padding:28px 32px;
+            box-shadow:0 2px 12px rgba(0,0,0,0.06); border:1px solid #e5e7eb;
+            margin-bottom:20px;
+        }
+        .cv-form-card h2 {
+            font-size:15px; font-weight:700; color:#111827; margin:0 0 18px;
+            padding-bottom:12px; border-bottom:2px solid #f3f4f6;
+            display:flex; align-items:center; gap:8px;
+        }
+
+        .form-field { margin-bottom:18px; }
+        .form-field label {
+            display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;
+        }
+        .form-field input, .form-field textarea, .form-field select {
+            width:100%; padding:10px 14px; border:1.5px solid #e5e7eb; border-radius:10px;
+            font-size:14px; font-family:'Inter',sans-serif; outline:none; color:#111827;
+            transition:border-color 0.18s, box-shadow 0.18s;
+        }
+        .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
+            border-color:#00b894; box-shadow:0 0 0 3px rgba(0,184,148,0.12);
+        }
+        .form-field textarea { resize:vertical; line-height:1.6; }
+        .form-field .hint {
+            font-size:11.5px; color:#9ca3af; margin-top:5px; line-height:1.5;
+        }
+
+        .cv-actions {
+            display:flex; gap:12px; flex-wrap:wrap; position:sticky;
+            bottom:20px; background:white; padding:16px 20px;
+            border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.12);
+            border:1px solid #e5e7eb; z-index:10;
+        }
+
+        .btn-save {
+            flex:1; padding:12px 24px; background:#00b894; color:white;
+            border:none; border-radius:10px; font-size:15px; font-weight:700;
+            cursor:pointer; font-family:'Inter',sans-serif;
+            transition:background 0.18s, transform 0.15s;
+        }
+        .btn-save:hover    { background:#00a381; transform:translateY(-1px); }
+        .btn-save:disabled { opacity:0.7; cursor:not-allowed; transform:none; }
+
+        .btn-download {
+            padding:12px 24px; background:white; color:#374151;
+            border:2px solid #e5e7eb; border-radius:10px; font-size:15px; font-weight:700;
+            cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; gap:8px;
+            transition:border-color 0.18s, color 0.18s;
+        }
+        .btn-download:hover    { border-color:#00b894; color:#00b894; }
+        .btn-download:disabled { opacity:0.5; cursor:not-allowed; }
+
+        .template-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px; }
+        .template-opt  {
+            padding:10px 8px; border:2px solid #e5e7eb; border-radius:10px;
+            text-align:center; font-size:12px; font-weight:600; cursor:pointer;
+            transition:border-color 0.18s, background 0.18s; color:#374151;
+        }
+        .template-opt:has(input:checked) { border-color:#00b894; background:#f0fdf4; color:#065f46; }
+        .template-opt .t-icon { font-size:24px; display:block; margin-bottom:4px; }
+        .template-opt input  { display:none; }
+
+        .back-link {
+            display:inline-flex; align-items:center; gap:6px; color:#6b7280;
+            text-decoration:none; font-size:14px; font-weight:500; margin-bottom:20px;
+        }
+        .back-link:hover { color:#00b894; }
+
+        @media (max-width:600px) {
+            .cv-form-card { padding:20px 16px; }
+            .cv-actions { flex-direction:column; }
+            .btn-save, .btn-download { width:100%; justify-content:center; }
+        }
+    </style>
+</head>
+<body class="cv-builder-layout">
+
+<header>
+    <div class="container header-inner">
+        <a href="index.html" class="logo" aria-label="EchoWork">
+            <img src="images/ECHO.png" alt="EchoWork logo">
+        </a>
+        <div class="auth-btns" id="header-auth-btns"></div>
+    </div>
+</header>
+
+<main class="cv-builder-content">
+    <a href="dashboard.html" class="back-link">← Quay lại Dashboard</a>
+
+    <div class="page-header">
+        <h1>📝 CV Builder</h1>
+        <p>Tạo CV chuyên nghiệp và xuất file PDF trong vài phút.</p>
+        <div class="cv-id-badge" id="cv-id-display" style="display:none">📄 CV mới</div>
+        <div style="font-size:13px;color:#6b7280;margin-top:6px">
+            Chào, <strong id="cv-user-name">bạn</strong>! Hãy điền thông tin vào CV của bạn.
+        </div>
+    </div>
+
+    <!-- Status bar -->
+    <div id="cv-status" class="cv-status cv-status-ready" style="display:none"></div>
+
+    <!-- Form -->
+    <form id="cv-form" novalidate>
+
+        <!-- Template -->
+        <div class="cv-form-card">
+            <h2>🎨 Chọn mẫu CV</h2>
+            <div class="template-grid">
+                <label class="template-opt">
+                    <input type="radio" name="cv-template-radio" id="tpl-default" value="default" checked>
+                    <span class="t-icon">📄</span>
+                    Tiêu chuẩn
+                </label>
+                <label class="template-opt">
+                    <input type="radio" name="cv-template-radio" value="elegant">
+                    <span class="t-icon">✨</span>
+                    Thanh lịch
+                </label>
+                <label class="template-opt">
+                    <input type="radio" name="cv-template-radio" value="modern">
+                    <span class="t-icon">🚀</span>
+                    Hiện đại
+                </label>
+                <label class="template-opt">
+                    <input type="radio" name="cv-template-radio" value="clean">
+                    <span class="t-icon">🌿</span>
+                    Tối giản
+                </label>
+                <label class="template-opt">
+                    <input type="radio" name="cv-template-radio" value="harvard">
+                    <span class="t-icon">🎓</span>
+                    Harvard
+                </label>
+            </div>
+            <!-- Hidden input read by cv-builder.js -->
+            <input type="hidden" id="cv-template">
+        </div>
+
+        <!-- Summary -->
+        <div class="cv-form-card">
+            <h2>👤 Giới thiệu bản thân</h2>
+            <div class="form-field">
+                <label for="cv-summary">Tóm tắt hồ sơ</label>
+                <textarea id="cv-summary" rows="4" placeholder="Mô tả ngắn gọn về bản thân, kinh nghiệm và mục tiêu nghề nghiệp của bạn..."></textarea>
+                <div class="hint">Ví dụ: Kỹ sư phần mềm với 3 năm kinh nghiệm React.js và Node.js. Đam mê xây dựng sản phẩm có ý nghĩa.</div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="cv-form-card">
+            <h2>🎓 Học vấn</h2>
+            <div class="form-field">
+                <label for="cv-education">Trình độ học vấn</label>
+                <textarea id="cv-education" rows="5" placeholder="Nhập thông tin học vấn của bạn..."></textarea>
+                <div class="hint">Ví dụ: Cử nhân CNTT – ĐH Bách Khoa HN (2018-2022) | GPA: 3.6/4.0</div>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="cv-form-card">
+            <h2>💼 Kinh nghiệm làm việc</h2>
+            <div class="form-field">
+                <label for="cv-experience">Kinh nghiệm</label>
+                <textarea id="cv-experience" rows="6" placeholder="Nhập kinh nghiệm làm việc của bạn..."></textarea>
+                <div class="hint">Ví dụ: Frontend Developer @ FPT Software (2022-nay) | Phát triển ứng dụng React.js, cải thiện hiệu suất 40%.</div>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="cv-form-card">
+            <h2>⚡ Kỹ năng</h2>
+            <div class="form-field">
+                <label for="cv-skills">Kỹ năng chuyên môn</label>
+                <textarea id="cv-skills" rows="3" placeholder="Nhập các kỹ năng của bạn..."></textarea>
+                <div class="hint">Ví dụ: React.js, TypeScript, Node.js, MySQL, Docker, Agile/Scrum</div>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Sticky Action Bar -->
+    <div class="cv-actions">
+        <button type="button" id="cv-save-btn" class="btn-save">💾 Lưu CV</button>
+        <button type="button" id="cv-download-btn" class="btn-download" disabled title="Lưu CV trước khi tải PDF">
+            📥 Tải PDF
+        </button>
+    </div>
+</main>
+
+<script src="js/utils/toast.js"></script>
+<script src="js/utils/api.js"></script>
+<script src="js/utils/auth.js"></script>
+<script>
+    // Sync template radio → hidden input
+    document.addEventListener('DOMContentLoaded', function () {
+        const hidden = document.getElementById('cv-template');
+        document.querySelectorAll('input[name="cv-template-radio"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                hidden.value = this.value;
+            });
+        });
+        hidden.value = 'default';
+
+        // Show cv-id-display badge after load
+        const badge = document.getElementById('cv-id-display');
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('id')) {
+            badge.style.display = 'inline-flex';
+            badge.textContent = `📄 CV #${params.get('id')}`;
+        }
+
+        // Show status bar
+        const statusEl = document.getElementById('cv-status');
+        statusEl.style.display = 'block';
+
+        // Sync template from URL param
+        const tpl = params.get('template');
+        if (tpl) {
+            const radio = document.querySelector(`input[name="cv-template-radio"][value="${tpl}"]`);
+            if (radio) { radio.checked = true; hidden.value = tpl; }
+        }
+
+        // Update header
+        if (window.EchoAuth) window.EchoAuth.updateHeaderAuth();
+    });
+</script>
+<script src="js/cv/cv-builder.js"></script>
+</body>
+</html>

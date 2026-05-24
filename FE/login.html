@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - EchoWork</title>
+    <meta name="description" content="Đăng nhập vào EchoWork - Nền tảng tuyển dụng tiếp cận hàng đầu Việt Nam.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .auth-tabs { display:flex; gap:0; margin-bottom:24px; border-radius:10px; overflow:hidden; border:1.5px solid #e5e7eb; }
+        .auth-tab  { flex:1; padding:11px; text-align:center; font-size:14px; font-weight:600; cursor:pointer; background:#f9fafb; color:#6b7280; border:none; font-family:'Inter',sans-serif; transition:background 0.18s,color 0.18s; }
+        .auth-tab.active { background:#00b894; color:white; }
+        .form-error { background:#fee2e2; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:12px; display:none; }
+        .form-error.show { display:block; }
+        .btn-primary:disabled { opacity:0.7; cursor:not-allowed; }
+        .divider { text-align:center; color:#9ca3af; font-size:13px; margin:16px 0; position:relative; }
+        .divider::before { content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:#e5e7eb; }
+        .divider span { background:white; padding:0 12px; position:relative; }
+        .pwd-section { margin-top:8px; padding:14px; background:#f0fdf4; border-radius:10px; border:1.5px solid #bbf7d0; }
+        .pwd-section p { font-size:13px; color:#065f46; font-weight:600; margin-bottom:10px; }
+        .pwd-options { display:flex; flex-wrap:wrap; gap:8px; }
+        .pwd-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#374151; }
+        .class-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px; }
+        .class-card { display:flex; flex-direction:column; align-items:center; gap:6px; padding:14px 10px; border:2px solid #e5e7eb; border-radius:12px; cursor:pointer; transition:border-color 0.18s,background 0.18s; font-family:'Inter',sans-serif; }
+        .class-card:has(input:checked) { border-color:#00b894; background:#f0fdf4; }
+        .class-card .icon { font-size:24px; }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo" aria-label="EchoWork">
+                <img src="images/ECHO.png" alt="EchoWork logo">
+            </a>
+            <div class="auth-btns">
+                <a href="index.html" class="btn btn-outline">Quay lại</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <div class="form-title">
+                <h2>Chào mừng bạn!</h2>
+                <p>Đăng nhập hoặc tạo tài khoản mới</p>
+            </div>
+
+            <!-- Tab switcher -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login" type="button">Đăng nhập</button>
+                <button class="auth-tab" id="tab-register" type="button">Đăng ký</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="login-panel">
+                <div class="class-grid">
+                    <label class="class-card">
+                        <input type="radio" name="user-type" value="normal" checked hidden>
+                        <span class="icon">👤</span>
+                        <strong>Cá nhân</strong>
+                    </label>
+                    <label class="class-card">
+                        <input type="radio" name="user-type" value="disability" hidden>
+                        <span class="icon">♿</span>
+                        <strong>Người khuyết tật</strong>
+                    </label>
+                </div>
+
+                <div class="pwd-section" id="pwd-section" style="display:none">
+                    <p>Bạn cần hỗ trợ gì?</p>
+                    <div class="pwd-options">
+                        <label class="pwd-item"><input type="checkbox"> Khiếm thính</label>
+                        <label class="pwd-item"><input type="checkbox"> Vận động</label>
+                        <label class="pwd-item"><input type="checkbox"> Thị giác</label>
+                        <label class="pwd-item"><input type="checkbox"> Khác</label>
+                    </div>
+                </div>
+
+                <div id="login-error" class="form-error"></div>
+
+                <form id="login-form" novalidate>
+                    <div class="form-group" style="margin-top:18px">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="name@company.com" autocomplete="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mật khẩu</label>
+                        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" required>
+                    </div>
+                    <button type="submit" id="login-submit" class="btn btn-primary" style="width:100%;margin-top:14px">Đăng nhập</button>
+                </form>
+
+                <div class="divider"><span>hoặc</span></div>
+                <p style="text-align:center;font-size:13px;color:#6b7280">
+                    Chưa có tài khoản? 
+                    <a href="#" id="goto-register" style="color:#00b894;font-weight:600">Đăng ký ngay</a>
+                </p>
+
+                <div style="margin-top:16px;padding:12px;background:#f0fdf4;border-radius:8px;font-size:12px;color:#065f46">
+                    <strong>🔑 Demo accounts:</strong><br>
+                    Admin: admin@echowork.vn / Admin@123<br>
+                    Recruiter: recruiter@fpt.com.vn / Recruiter@123<br>
+                    Candidate: candidate@gmail.com / Candidate@123
+                </div>
+            </div>
+
+            <!-- REGISTER FORM (shown when tab-register clicked) -->
+            <div id="register-panel" style="display:none">
+                <div id="reg-error" class="form-error"></div>
+                <form id="register-form" novalidate>
+                    <div class="form-group">
+                        <label for="reg-fullname">Họ và tên *</label>
+                        <input type="text" id="reg-fullname" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email *</label>
+                        <input type="email" id="reg-email" placeholder="name@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Mật khẩu * (ít nhất 6 ký tự)</label>
+                        <input type="password" id="reg-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password2">Xác nhận mật khẩu *</label>
+                        <input type="password" id="reg-password2" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-role">Loại tài khoản *</label>
+                        <select id="reg-role" style="width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif">
+                            <option value="CANDIDATE">👤 Ứng viên (Tìm việc)</option>
+                            <option value="RECRUITER">🏢 Nhà tuyển dụng (Đăng tin)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-disability">Thông tin khuyết tật (nếu có)</label>
+                        <input type="text" id="reg-disability" placeholder="VD: Khiếm thính, Vận động...">
+                    </div>
+                    <button type="submit" id="reg-submit" class="btn btn-primary" style="width:100%;margin-top:14px">Đăng ký</button>
+                </form>
+
+                <div class="divider"><span>hoặc</span></div>
+                <p style="text-align:center;font-size:13px;color:#6b7280">
+                    Đã có tài khoản?
+                    <a href="#" id="goto-login" style="color:#00b894;font-weight:600">Đăng nhập</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/utils/toast.js"></script>
+    <script src="js/utils/api.js"></script>
+    <script src="js/utils/auth.js"></script>
+
+    <script>
+        // Tab switching
+        const tabLogin     = document.getElementById('tab-login');
+        const tabRegister  = document.getElementById('tab-register');
+        const loginPanel   = document.getElementById('login-panel');
+        const registerPanel= document.getElementById('register-panel');
+        const gotoRegister = document.getElementById('goto-register');
+        const gotoLogin    = document.getElementById('goto-login');
+
+        function showLogin() {
+            tabLogin.classList.add('active');
+            tabRegister.classList.remove('active');
+            loginPanel.style.display = 'block';
+            registerPanel.style.display = 'none';
+        }
+        function showRegister() {
+            tabRegister.classList.add('active');
+            tabLogin.classList.remove('active');
+            registerPanel.style.display = 'block';
+            loginPanel.style.display = 'none';
+        }
+
+        tabLogin.addEventListener('click', showLogin);
+        tabRegister.addEventListener('click', showRegister);
+        if (gotoRegister) gotoRegister.addEventListener('click', e => { e.preventDefault(); showRegister(); });
+        if (gotoLogin)    gotoLogin.addEventListener('click',    e => { e.preventDefault(); showLogin(); });
+
+        // Disability section toggle
+        document.querySelectorAll('input[name="user-type"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.getElementById('pwd-section').style.display = this.value === 'disability' ? 'block' : 'none';
+            });
+        });
+    </script>
+
+    <script src="js/auth/login.js"></script>
+    <script src="js/auth/register.js"></script>
+
+</body>
+</html>
