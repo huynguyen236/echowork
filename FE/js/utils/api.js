@@ -5,10 +5,7 @@
 
 // Allow the API base URL to be overridden at deploy time via a global variable.
 // In production, set window.ECHO_API_BASE before this script loads.
-const API_BASE = (typeof window !== 'undefined' && window.ECHO_API_BASE)
-  ? window.ECHO_API_BASE
-  : 'http://localhost:3000/api';
-
+const API_BASE = 'https://echowork-api.onrender.com/api';
 /**
  * Handle a 401 Unauthorized response — clear auth and redirect to login.
  * Avoids a redirect loop if we're already on the login page.
